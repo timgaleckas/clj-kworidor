@@ -48,7 +48,7 @@
   [player-index width height]
   (let [span     (if (vertical-oriented-player? player-index) width height )
         distance (if (vertical-oriented-player? player-index) height width )]
-  (map (fn [x] ((if (vertical-oriented-player? player-index) identity reverse ) [ x (if (= (mod player-index 2) 0) (dec distance) 0) ] ) )(range span))))
+  (mapv (fn [x] ((if (vertical-oriented-player? player-index) identity reverse ) [ x (if (= (mod player-index 2) 0) (dec distance) 0) ] ) )(range span))))
 
 
 (defn default-board
@@ -56,9 +56,9 @@
   {:width width
    :height height
    :tiles-available 10
-   :player-moves (repeat num-players [])
-   :player-start-pos (map #( get-start-pos % width height ) (range num-players))
-   :player-goal-pos  (map #( get-goal-pos  % width height ) (range num-players))})
+   :player-moves (vec (repeat num-players []))
+   :player-start-pos (mapv #( get-start-pos % width height ) (range num-players))
+   :player-goal-pos  (mapv #( get-goal-pos  % width height ) (range num-players))})
 
 (def standard-two-player-board
   (default-board :width 7 :height 11))
@@ -79,5 +79,3 @@
   (map (fn [start-pos moves] (last (filter #(= (count %) 2) (cons start-pos moves)))) (:player-start-pos board) (:player-moves board)))
 
 standard-two-player-board
-
-(current-player-pos standard-two-player-board)
