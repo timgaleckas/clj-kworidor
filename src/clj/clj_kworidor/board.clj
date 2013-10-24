@@ -76,11 +76,7 @@
 
 (defn current-player-pos
   [board]
-  (let [[s1 s2] (:player-start-pos board) [m1 m2] (:player-moves board)]
-        [
-         (last (filter #(= (count %) 2) (cons s1 m1)))
-         (last (filter #(= (count %) 2) (cons s2 m2)))
-        ]))
+  (map (fn [start-pos moves] (last (filter #(= (count %) 2) (cons start-pos moves)))) (:player-start-pos board) (:player-moves board)))
 
 standard-two-player-board
 
