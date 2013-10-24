@@ -52,20 +52,16 @@
 
 
 (defn default-board
-  [& [width height num-players]]
-  (let [width (or width 9)
-        height (or height 9)
-        num-players (or num-players 2)]
-    { :width width
-      :height height
-      :tiles-available 10
-      :player-moves (repeat num-players [])
-      :player-start-pos (map #( get-start-pos % width height ) (range num-players))
-      :player-goal-pos  (map #( get-goal-pos  % width height ) (range num-players))
-      }))
+  [& {:keys [width height num-players], :or {width 9, height 9, num-players 2}}]
+  {:width width
+   :height height
+   :tiles-available 10
+   :player-moves (repeat num-players [])
+   :player-start-pos (map #( get-start-pos % width height ) (range num-players))
+   :player-goal-pos  (map #( get-goal-pos  % width height ) (range num-players))})
 
 (def standard-two-player-board
-  (default-board 7 11))
+  (default-board :width 7 :height 11))
 
 (defn board-possible-movement-moves [board]
   (for [x (range (:width board)) y (range (:height board))]
